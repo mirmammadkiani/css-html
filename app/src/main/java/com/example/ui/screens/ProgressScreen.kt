@@ -282,13 +282,13 @@ fun ProgressScreen(
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Text(
-                            text = "نسخه آفلاین و آماده انتشار",
+                            text = "نسخه آفلاین و متن‌باز (MIT)",
                             style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.onSurface,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = "کل برنامه بدون نیاز به اینترنت و مجوزهای اضافه طراحی شده تا سبک، سریع و آماده انتشار رایگان در کافه‌بازار باشد.",
+                            text = "کل برنامه بدون نیاز به اینترنت و مجوزهای اضافه، تحت مجوز متن‌باز MIT و آماده انتشار رایگان در کافه‌بازار و گیت‌هاب است.",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )

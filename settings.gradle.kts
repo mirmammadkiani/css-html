@@ -22,6 +22,6 @@ dependencyResolutionManagement {
   }
 }
 
-rootProject.name = "WebAmooz"
+rootProject.name = "webforus"
 
 include(":app")

@@ -583,7 +583,7 @@ footer { background: #e2e8f0; color: #334155; font-size: 12px; text-align: cente
                             standardSource = "MDN — Basic Concepts of Flexbox",
                             taskPrompt = "کلاس .toolbar را با display: flex;، justify-content: space-between;، align-items: center; و gap: 12px; تکمیل کنید.",
                             starterHtml = """<header class="toolbar">
-  <div class="logo">وب‌آموز</div>
+  <div class="logo">webforus</div>
   <button class="cta">شروع یادگیری</button>
 </header>""",
                             starterCss = """.toolbar {
@@ -602,7 +602,7 @@ footer { background: #e2e8f0; color: #334155; font-size: 12px; text-align: cente
   border-radius: 8px;
 }""",
                             solutionHtml = """<header class="toolbar">
-  <div class="logo">وب‌آموز</div>
+  <div class="logo">webforus</div>
   <button class="cta">شروع یادگیری</button>
 </header>""",
                             solutionCss = """.toolbar {

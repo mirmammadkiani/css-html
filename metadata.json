@@ -1,5 +1,5 @@
 {
-  "name": "وب‌آموز",
+  "name": "webforus",
   "description": "آموزش اصولی و مرحله‌به‌مرحله HTML و CSS با پیش‌نمایش زنده بر پایه مستندات استاندارد MDN و W3C",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
