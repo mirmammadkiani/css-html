@@ -19,6 +19,7 @@ import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.minimumInteractiveComponentSize
@@ -42,10 +43,6 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.example.model.CodeTarget
 import com.example.ui.theme.CodeTextStyle
-import com.example.ui.theme.EditorBackground
-import com.example.ui.theme.EditorBorder
-import com.example.ui.theme.EditorMutedText
-import com.example.ui.theme.EditorText
 
 @Composable
 fun CodeEditorPane(
@@ -87,19 +84,25 @@ fun CodeEditorPane(
         (extraQuickChips + defaultChips).distinct()
     }
 
+    val editorSurface = MaterialTheme.colorScheme.surfaceVariant
+    val editorHeader = MaterialTheme.colorScheme.surface
+    val editorBorder = MaterialTheme.colorScheme.outline
+    val editorText = MaterialTheme.colorScheme.onSurface
+    val editorMuted = MaterialTheme.colorScheme.onSurfaceVariant
+
     Surface(
         modifier = modifier
             .fillMaxWidth()
             .testTag("code_editor_pane"),
         shape = RoundedCornerShape(8.dp),
-        color = EditorBackground,
-        border = BorderStroke(1.dp, EditorBorder)
+        color = editorSurface,
+        border = BorderStroke(1.dp, editorBorder)
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFF252525))
+                    .background(editorHeader)
                     .padding(horizontal = 10.dp, vertical = 2.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -132,7 +135,7 @@ fun CodeEditorPane(
                             Icon(
                                 imageVector = Icons.Rounded.AutoFixHigh,
                                 contentDescription = "نمایش کد پاسخ استاندارد",
-                                tint = EditorText
+                                tint = editorText
                             )
                         }
                     }
@@ -145,13 +148,13 @@ fun CodeEditorPane(
                         Icon(
                             imageVector = Icons.Rounded.Refresh,
                             contentDescription = "بازنشانی کد",
-                            tint = EditorMutedText
+                            tint = editorMuted
                         )
                     }
                 }
             }
 
-            HorizontalDivider(color = EditorBorder)
+            HorizontalDivider(color = editorBorder)
 
             CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                 val linesCount = remember(textFieldValue.text) {
@@ -171,7 +174,7 @@ fun CodeEditorPane(
                         for (i in 1..linesCount.coerceAtMost(14)) {
                             Text(
                                 text = i.toString(),
-                                style = CodeTextStyle.copy(color = Color(0xFF5A5A5A))
+                                style = CodeTextStyle.copy(color = editorMuted.copy(alpha = 0.7f))
                             )
                         }
                     }
@@ -186,20 +189,20 @@ fun CodeEditorPane(
                                 onCssChange(updated.text)
                             }
                         },
-                        textStyle = CodeTextStyle.copy(color = EditorText),
-                        cursorBrush = SolidColor(EditorText),
+                        textStyle = CodeTextStyle.copy(color = editorText),
+                        cursorBrush = SolidColor(editorText),
                         modifier = Modifier
                             .fillMaxWidth()
                             .testTag("code_text_field")
                     )
                 }
 
-                HorizontalDivider(color = EditorBorder)
+                HorizontalDivider(color = editorBorder)
 
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Color(0xFF222222))
+                        .background(editorHeader)
                         .horizontalScroll(rememberScrollState())
                         .padding(horizontal = 10.dp, vertical = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -208,8 +211,8 @@ fun CodeEditorPane(
                     allChips.forEach { token ->
                         Surface(
                             shape = RoundedCornerShape(5.dp),
-                            color = Color(0xFF2B2B2B),
-                            border = BorderStroke(1.dp, Color(0xFF383838)),
+                            color = editorSurface,
+                            border = BorderStroke(1.dp, editorBorder),
                             modifier = Modifier
                                 .clip(RoundedCornerShape(5.dp))
                                 .clickable {
@@ -233,7 +236,7 @@ fun CodeEditorPane(
                         ) {
                             Text(
                                 text = token,
-                                style = CodeTextStyle.copy(color = EditorText),
+                                style = CodeTextStyle.copy(color = editorText),
                                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 5.dp)
                             )
                         }
@@ -257,13 +260,13 @@ private fun EditorTabChip(
             .clip(RoundedCornerShape(6.dp))
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(6.dp),
-        color = if (selected) EditorBackground else Color.Transparent,
-        border = if (selected) BorderStroke(1.dp, EditorBorder) else null
+        color = if (selected) MaterialTheme.colorScheme.surfaceVariant else Color.Transparent,
+        border = if (selected) BorderStroke(1.dp, MaterialTheme.colorScheme.outline) else null
     ) {
         Text(
             text = label,
             style = CodeTextStyle.copy(
-                color = if (selected) EditorText else EditorMutedText
+                color = if (selected) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant
             ),
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 7.dp)
         )

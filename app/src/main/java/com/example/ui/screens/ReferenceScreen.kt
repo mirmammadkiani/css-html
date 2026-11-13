@@ -40,7 +40,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
@@ -49,12 +48,6 @@ import androidx.compose.ui.unit.dp
 import com.example.data.CurriculumRepository
 import com.example.model.ReferenceEntry
 import com.example.ui.theme.CodeTextStyle
-import com.example.ui.theme.EditorBackground
-import com.example.ui.theme.EditorText
-import com.example.ui.theme.TopicCssTextDark
-import com.example.ui.theme.TopicCssTextLight
-import com.example.ui.theme.TopicHtmlTextDark
-import com.example.ui.theme.TopicHtmlTextLight
 
 @Composable
 fun ReferenceScreen(
@@ -182,10 +175,10 @@ private fun RefFilterPill(
 ) {
     Surface(
         shape = RoundedCornerShape(6.dp),
-        color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+        color = MaterialTheme.colorScheme.background,
         border = BorderStroke(
-            width = 1.dp,
-            color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
+            width = if (selected) 1.5.dp else 1.dp,
+            color = if (selected) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.outline
         ),
         modifier = Modifier
             .minimumInteractiveComponentSize()
@@ -199,7 +192,8 @@ private fun RefFilterPill(
             Text(
                 text = label,
                 style = MaterialTheme.typography.labelMedium,
-                color = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
+                fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
+                color = if (selected) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -210,13 +204,6 @@ private fun ReferenceRow(
     entry: ReferenceEntry,
     onTry: () -> Unit
 ) {
-    val isDark = MaterialTheme.colorScheme.background.luminance() < 0.5f
-    val topicFontColor = if (entry.category.contains("HTML")) {
-        if (isDark) TopicHtmlTextDark else TopicHtmlTextLight
-    } else {
-        if (isDark) TopicCssTextDark else TopicCssTextLight
-    }
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -231,7 +218,7 @@ private fun ReferenceRow(
             Text(
                 text = entry.title,
                 style = MaterialTheme.typography.titleMedium,
-                color = topicFontColor,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f)
             )
@@ -245,13 +232,13 @@ private fun ReferenceRow(
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
             Surface(
                 shape = RoundedCornerShape(6.dp),
-                color = EditorBackground,
+                color = MaterialTheme.colorScheme.surfaceVariant,
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
                     text = entry.syntax,
-                    style = CodeTextStyle.copy(color = EditorText),
+                    style = CodeTextStyle.copy(color = MaterialTheme.colorScheme.onSurface),
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
                 )
             }

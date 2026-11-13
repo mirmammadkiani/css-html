@@ -1,8 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:width="66dp"
-        android:height="66dp"
-        android:drawable="@drawable/app_icon_fg_clean"
-        android:gravity="center" />
-</layer-list>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Outer bounding square (60dp x 60dp centered inside 66dp safe zone) -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M24,24 H84 V84 H24 Z"
+        android:strokeWidth="0.45"
+        android:strokeColor="#262626" />
+
+    <!-- Diagonal guidelines -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M24,24 L84,84 M84,24 L24,84"
+        android:strokeWidth="0.38"
+        android:strokeColor="#404040" />
+
+    <!-- Orthogonal & keyline gridlines -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M54,24 V84 M24,54 H84 M42.75,24 V84 M65.25,24 V84 M24,42.75 H84 M24,65.25 H84"
+        android:strokeWidth="0.32"
+        android:strokeColor="#525252" />
+
+    <!-- Inner tangent circle -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M54,42.75 A11.25,11.25 0 1,1 53.99,42.75 Z"
+        android:strokeWidth="0.42"
+        android:strokeColor="#262626" />
+
+    <!-- Outer keyline circle -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M54,27.5 A26.5,26.5 0 1,1 53.99,27.5 Z"
+        android:strokeWidth="0.45"
+        android:strokeColor="#262626" />
+
+    <!-- Square keyline rounded rectangle -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M35,31.5 H73 A3.5,3.5 0 0,1 76.5,35 V73 A3.5,3.5 0 0,1 73,76.5 H35 A3.5,3.5 0 0,1 31.5,73 V35 A3.5,3.5 0 0,1 35,31.5 Z"
+        android:strokeWidth="0.42"
+        android:strokeColor="#262626" />
+
+    <!-- Vertical keyline rounded rectangle -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M38.75,26.5 H69.25 A3.5,3.5 0 0,1 72.75,30 V78 A3.5,3.5 0 0,1 69.25,81.5 H38.75 A3.5,3.5 0 0,1 35.25,78 V30 A3.5,3.5 0 0,1 38.75,26.5 Z"
+        android:strokeWidth="0.42"
+        android:strokeColor="#262626" />
+
+    <!-- Horizontal keyline rounded rectangle -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M30,35.25 H78 A3.5,3.5 0 0,1 81.5,38.75 V69.25 A3.5,3.5 0 0,1 78,72.75 H30 A3.5,3.5 0 0,1 26.5,69.25 V38.75 A3.5,3.5 0 0,1 30,35.25 Z"
+        android:strokeWidth="0.42"
+        android:strokeColor="#262626" />
+
+</vector>

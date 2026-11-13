@@ -29,7 +29,7 @@ class WebAmoozViewModel(application: Application) : AndroidViewModel(application
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
     val themePreference: StateFlow<ThemePreference> = dataStore.themePreferenceFlow
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ThemePreference.DARK)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ThemePreference.LIGHT)
 
     val savedSnippets: StateFlow<List<SavedSnippet>> = dataStore.savedSnippetsFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())

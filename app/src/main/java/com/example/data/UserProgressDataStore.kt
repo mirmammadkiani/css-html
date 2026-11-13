@@ -39,9 +39,9 @@ class UserProgressDataStore(private val context: Context) {
 
     val themePreferenceFlow: Flow<ThemePreference> = context.dataStore.data.map { prefs ->
         when (prefs[Keys.THEME_PREF]) {
-            ThemePreference.LIGHT.name -> ThemePreference.LIGHT
+            ThemePreference.DARK.name -> ThemePreference.DARK
             ThemePreference.SYSTEM.name -> ThemePreference.SYSTEM
-            else -> ThemePreference.DARK
+            else -> ThemePreference.LIGHT
         }
     }
 

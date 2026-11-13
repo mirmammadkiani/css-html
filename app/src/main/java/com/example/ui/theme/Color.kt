@@ -2,41 +2,22 @@ package com.example.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Notion-inspired Minimalist Dark Palette
-val NotionDarkBackground = Color(0xFF191919)
-val NotionDarkSurface = Color(0xFF202020)
-val NotionDarkSurfaceVariant = Color(0xFF262626)
-val NotionDarkOutline = Color(0xFF2F2F2F)
-val NotionDarkOnSurface = Color(0xFFEBEBEA)
-val NotionDarkOnSurfaceMuted = Color(0xFF9B9A97)
-val NotionDarkPrimary = Color(0xFFEBEBEA)
-val NotionDarkOnPrimary = Color(0xFF191919)
+// Pure Black & White Minimalist Light Palette (Default, Notion-like)
+val BwLightBackground = Color(0xFFFFFFFF)
+val BwLightSurface = Color(0xFFFFFFFF)
+val BwLightSurfaceVariant = Color(0xFFF4F4F5)
+val BwLightOutline = Color(0xFFE4E4E7)
+val BwLightOnSurface = Color(0xFF09090B)
+val BwLightOnSurfaceMuted = Color(0xFF52525B)
+val BwLightPrimary = Color(0xFF09090B)
+val BwLightOnPrimary = Color(0xFFFFFFFF)
 
-// Notion-inspired Minimalist Light Palette
-val NotionLightBackground = Color(0xFFFFFFFF)
-val NotionLightSurface = Color(0xFFF7F6F3)
-val NotionLightSurfaceVariant = Color(0xFFF1F0EC)
-val NotionLightOutline = Color(0xFFE6E5E0)
-val NotionLightOnSurface = Color(0xFF37352F)
-val NotionLightOnSurfaceMuted = Color(0xFF787774)
-val NotionLightPrimary = Color(0xFF37352F)
-val NotionLightOnPrimary = Color(0xFFFFFFFF)
-
-// Notion Code Block Surface
-val EditorBackground = Color(0xFF1E1E1E)
-val EditorBorder = Color(0xFF2E2E2E)
-val EditorText = Color(0xFFE6E6E5)
-val EditorMutedText = Color(0xFF9B9A97)
-
-// Font-only accent colors ONLY for topic boxes & important notes
-val TopicHtmlTextDark = Color(0xFFFF8A65)
-val TopicHtmlTextLight = Color(0xFFC2410C)
-
-val TopicCssTextDark = Color(0xFF60A5FA)
-val TopicCssTextLight = Color(0xFF1D4ED8)
-
-val TopicLayoutTextDark = Color(0xFF4ADE80)
-val TopicLayoutTextLight = Color(0xFF047857)
-
-val ImportantNoteTextDark = Color(0xFFFBBF24)
-val ImportantNoteTextLight = Color(0xFFB45309)
+// Pure Black & White High-Contrast Dark Palette (No muddy dark-on-dark)
+val BwDarkBackground = Color(0xFF09090B)
+val BwDarkSurface = Color(0xFF141417)
+val BwDarkSurfaceVariant = Color(0xFF222226)
+val BwDarkOutline = Color(0xFF3F3F46)
+val BwDarkOnSurface = Color(0xFFFAFAFA)
+val BwDarkOnSurfaceMuted = Color(0xFFA1A1AA)
+val BwDarkPrimary = Color(0xFFFAFAFA)
+val BwDarkOnPrimary = Color(0xFF09090B)

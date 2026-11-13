@@ -7,55 +7,54 @@ import androidx.compose.material3.Shapes
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 private val DarkColorScheme = darkColorScheme(
-    primary = NotionDarkPrimary,
-    onPrimary = NotionDarkOnPrimary,
-    primaryContainer = NotionDarkSurfaceVariant,
-    onPrimaryContainer = NotionDarkOnSurface,
-    secondary = NotionDarkOnSurfaceMuted,
-    onSecondary = NotionDarkOnPrimary,
-    secondaryContainer = NotionDarkSurfaceVariant,
-    onSecondaryContainer = NotionDarkOnSurface,
-    tertiary = NotionDarkOnSurfaceMuted,
-    onTertiary = NotionDarkOnPrimary,
-    tertiaryContainer = NotionDarkSurfaceVariant,
-    onTertiaryContainer = NotionDarkOnSurface,
-    background = NotionDarkBackground,
-    onBackground = NotionDarkOnSurface,
-    surface = NotionDarkSurface,
-    onSurface = NotionDarkOnSurface,
-    surfaceVariant = NotionDarkSurfaceVariant,
-    onSurfaceVariant = NotionDarkOnSurfaceMuted,
-    outline = NotionDarkOutline,
-    error = Color(0xFFD4D4D8),
-    onError = NotionDarkOnPrimary
+    primary = BwDarkPrimary,
+    onPrimary = BwDarkOnPrimary,
+    primaryContainer = BwDarkSurfaceVariant,
+    onPrimaryContainer = BwDarkOnSurface,
+    secondary = BwDarkOnSurfaceMuted,
+    onSecondary = BwDarkOnPrimary,
+    secondaryContainer = BwDarkSurfaceVariant,
+    onSecondaryContainer = BwDarkOnSurface,
+    tertiary = BwDarkOnSurfaceMuted,
+    onTertiary = BwDarkOnPrimary,
+    tertiaryContainer = BwDarkSurfaceVariant,
+    onTertiaryContainer = BwDarkOnSurface,
+    background = BwDarkBackground,
+    onBackground = BwDarkOnSurface,
+    surface = BwDarkSurface,
+    onSurface = BwDarkOnSurface,
+    surfaceVariant = BwDarkSurfaceVariant,
+    onSurfaceVariant = BwDarkOnSurfaceMuted,
+    outline = BwDarkOutline,
+    error = BwDarkOnSurface,
+    onError = BwDarkOnPrimary
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = NotionLightPrimary,
-    onPrimary = NotionLightOnPrimary,
-    primaryContainer = NotionLightSurfaceVariant,
-    onPrimaryContainer = NotionLightOnSurface,
-    secondary = NotionLightOnSurfaceMuted,
-    onSecondary = NotionLightOnPrimary,
-    secondaryContainer = NotionLightSurfaceVariant,
-    onSecondaryContainer = NotionLightOnSurface,
-    tertiary = NotionLightOnSurfaceMuted,
-    onTertiary = NotionLightOnPrimary,
-    tertiaryContainer = NotionLightSurfaceVariant,
-    onTertiaryContainer = NotionLightOnSurface,
-    background = NotionLightBackground,
-    onBackground = NotionLightOnSurface,
-    surface = NotionLightSurface,
-    onSurface = NotionLightOnSurface,
-    surfaceVariant = NotionLightSurfaceVariant,
-    onSurfaceVariant = NotionLightOnSurfaceMuted,
-    outline = NotionLightOutline,
-    error = Color(0xFF37352F),
-    onError = NotionLightOnPrimary
+    primary = BwLightPrimary,
+    onPrimary = BwLightOnPrimary,
+    primaryContainer = BwLightSurfaceVariant,
+    onPrimaryContainer = BwLightOnSurface,
+    secondary = BwLightOnSurfaceMuted,
+    onSecondary = BwLightOnPrimary,
+    secondaryContainer = BwLightSurfaceVariant,
+    onSecondaryContainer = BwLightOnSurface,
+    tertiary = BwLightOnSurfaceMuted,
+    onTertiary = BwLightOnPrimary,
+    tertiaryContainer = BwLightSurfaceVariant,
+    onTertiaryContainer = BwLightOnSurface,
+    background = BwLightBackground,
+    onBackground = BwLightOnSurface,
+    surface = BwLightSurface,
+    onSurface = BwLightOnSurface,
+    surfaceVariant = BwLightSurfaceVariant,
+    onSurfaceVariant = BwLightOnSurfaceMuted,
+    outline = BwLightOutline,
+    error = BwLightOnSurface,
+    onError = BwLightOnPrimary
 )
 
 val WebAmoozShapes = Shapes(
@@ -70,18 +69,15 @@ enum class ThemePreference {
 }
 
 @Composable
-fun isThemeDark(themePreference: ThemePreference): Boolean = when (themePreference) {
-    ThemePreference.SYSTEM -> isSystemInDarkTheme()
-    ThemePreference.DARK -> true
-    ThemePreference.LIGHT -> false
-}
-
-@Composable
 fun WebAmoozTheme(
-    themePreference: ThemePreference = ThemePreference.DARK,
+    themePreference: ThemePreference = ThemePreference.LIGHT,
     content: @Composable () -> Unit
 ) {
-    val isDark = isThemeDark(themePreference)
+    val isDark = when (themePreference) {
+        ThemePreference.SYSTEM -> isSystemInDarkTheme()
+        ThemePreference.DARK -> true
+        ThemePreference.LIGHT -> false
+    }
 
     MaterialTheme(
         colorScheme = if (isDark) DarkColorScheme else LightColorScheme,

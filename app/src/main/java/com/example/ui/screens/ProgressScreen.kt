@@ -34,22 +34,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.data.CurriculumRepository
-import com.example.model.LessonTopic
 import com.example.model.SavedSnippet
-import com.example.ui.theme.ImportantNoteTextDark
-import com.example.ui.theme.ImportantNoteTextLight
 import com.example.ui.theme.ThemePreference
-import com.example.ui.theme.TopicCssTextDark
-import com.example.ui.theme.TopicCssTextLight
-import com.example.ui.theme.TopicHtmlTextDark
-import com.example.ui.theme.TopicHtmlTextLight
-import com.example.ui.theme.TopicLayoutTextDark
-import com.example.ui.theme.TopicLayoutTextLight
 
 @Composable
 fun ProgressScreen(
@@ -64,8 +54,6 @@ fun ProgressScreen(
 ) {
     val totalSteps = CurriculumRepository.allStepsCount
     val doneSteps = completedSteps.size.coerceAtMost(totalSteps)
-    val isDark = MaterialTheme.colorScheme.background.luminance() < 0.5f
-    val importantNoteFontColor = if (isDark) ImportantNoteTextDark else ImportantNoteTextLight
 
     Box(
         modifier = modifier.fillMaxSize(),
@@ -93,7 +81,6 @@ fun ProgressScreen(
                 }
             }
 
-            // Flat Notion-style stats row
             item {
                 Surface(
                     shape = RoundedCornerShape(8.dp),
@@ -137,7 +124,6 @@ fun ProgressScreen(
                 }
             }
 
-            // Module mastery breakdown (colored topic font ONLY)
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     Text(
@@ -159,11 +145,6 @@ fun ProgressScreen(
                                 val modTotal = module.lessons.sumOf { it.steps.size }
                                 val modDone = module.lessons.sumOf { l -> l.steps.count { completedSteps.contains(it.id) } }
                                 val ratio = if (modTotal > 0) modDone.toFloat() / modTotal else 0f
-                                val topicFontColor = when (module.topic) {
-                                    LessonTopic.HTML -> if (isDark) TopicHtmlTextDark else TopicHtmlTextLight
-                                    LessonTopic.CSS -> if (isDark) TopicCssTextDark else TopicCssTextLight
-                                    LessonTopic.LAYOUT -> if (isDark) TopicLayoutTextDark else TopicLayoutTextLight
-                                }
                                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
@@ -172,7 +153,7 @@ fun ProgressScreen(
                                         Text(
                                             text = module.title,
                                             style = MaterialTheme.typography.bodySmall,
-                                            color = topicFontColor,
+                                            color = MaterialTheme.colorScheme.onSurface,
                                             fontWeight = FontWeight.Medium
                                         )
                                         Text(
@@ -197,7 +178,6 @@ fun ProgressScreen(
                 }
             }
 
-            // Theme selector
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
@@ -207,16 +187,16 @@ fun ProgressScreen(
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         NotionThemeOption(
-                            label = "تاریک",
-                            selected = themePreference == ThemePreference.DARK,
-                            onClick = { onThemeChange(ThemePreference.DARK) },
-                            modifier = Modifier.testTag("theme_dark_chip")
-                        )
-                        NotionThemeOption(
                             label = "روشن",
                             selected = themePreference == ThemePreference.LIGHT,
                             onClick = { onThemeChange(ThemePreference.LIGHT) },
                             modifier = Modifier.testTag("theme_light_chip")
+                        )
+                        NotionThemeOption(
+                            label = "تاریک",
+                            selected = themePreference == ThemePreference.DARK,
+                            onClick = { onThemeChange(ThemePreference.DARK) },
+                            modifier = Modifier.testTag("theme_dark_chip")
                         )
                         NotionThemeOption(
                             label = "سیستم",
@@ -231,7 +211,6 @@ fun ProgressScreen(
                 HorizontalDivider(color = MaterialTheme.colorScheme.outline)
             }
 
-            // Saved Snippets
             item {
                 Text(
                     text = "کدهای ذخیره‌شده",
@@ -291,11 +270,10 @@ fun ProgressScreen(
                 }
             }
 
-            // Important Note Callout (neutral monochrome container, ONLY text font colored)
             item {
                 Surface(
                     shape = RoundedCornerShape(8.dp),
-                    color = MaterialTheme.colorScheme.surface,
+                    color = MaterialTheme.colorScheme.surfaceVariant,
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -304,15 +282,15 @@ fun ProgressScreen(
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Text(
-                            text = "نکته مهم: نسخه آفلاین و آماده انتشار",
+                            text = "نسخه آفلاین و آماده انتشار",
                             style = MaterialTheme.typography.labelLarge,
-                            color = importantNoteFontColor,
+                            color = MaterialTheme.colorScheme.onSurface,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
                             text = "کل برنامه بدون نیاز به اینترنت و مجوزهای اضافه طراحی شده تا سبک، سریع و آماده انتشار رایگان در کافه‌بازار باشد.",
                             style = MaterialTheme.typography.bodySmall,
-                            color = importantNoteFontColor
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
@@ -334,10 +312,10 @@ private fun NotionThemeOption(
 ) {
     Surface(
         shape = RoundedCornerShape(6.dp),
-        color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+        color = MaterialTheme.colorScheme.background,
         border = BorderStroke(
-            width = 1.dp,
-            color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
+            width = if (selected) 1.5.dp else 1.dp,
+            color = if (selected) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.outline
         ),
         modifier = modifier
             .minimumInteractiveComponentSize()
@@ -351,7 +329,8 @@ private fun NotionThemeOption(
             Text(
                 text = label,
                 style = MaterialTheme.typography.labelMedium,
-                color = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
+                fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
+                color = if (selected) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }

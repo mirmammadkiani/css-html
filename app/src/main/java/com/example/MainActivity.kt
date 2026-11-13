@@ -1,9 +1,12 @@
 package com.example
 
+import android.graphics.Color as AndroidColor
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -30,6 +33,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -53,6 +57,7 @@ import com.example.ui.screens.LessonScreen
 import com.example.ui.screens.PlaygroundScreen
 import com.example.ui.screens.ProgressScreen
 import com.example.ui.screens.ReferenceScreen
+import com.example.ui.theme.ThemePreference
 import com.example.ui.theme.WebAmoozTheme
 import com.example.ui.viewmodel.WebAmoozViewModel
 
@@ -108,10 +113,33 @@ private val topTabs = listOf(
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.light(AndroidColor.TRANSPARENT, AndroidColor.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.light(AndroidColor.TRANSPARENT, AndroidColor.TRANSPARENT)
+        )
         setContent {
             val viewModel: WebAmoozViewModel = viewModel()
             val themePreference by viewModel.themePreference.collectAsStateWithLifecycle()
+            val isDark = when (themePreference) {
+                ThemePreference.SYSTEM -> isSystemInDarkTheme()
+                ThemePreference.DARK -> true
+                ThemePreference.LIGHT -> false
+            }
+
+            LaunchedEffect(isDark) {
+                enableEdgeToEdge(
+                    statusBarStyle = if (isDark) {
+                        SystemBarStyle.dark(AndroidColor.TRANSPARENT)
+                    } else {
+                        SystemBarStyle.light(AndroidColor.TRANSPARENT, AndroidColor.TRANSPARENT)
+                    },
+                    navigationBarStyle = if (isDark) {
+                        SystemBarStyle.dark(AndroidColor.TRANSPARENT)
+                    } else {
+                        SystemBarStyle.light(AndroidColor.TRANSPARENT, AndroidColor.TRANSPARENT)
+                    }
+                )
+            }
 
             CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
                 WebAmoozTheme(themePreference = themePreference) {

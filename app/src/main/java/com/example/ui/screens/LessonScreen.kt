@@ -45,24 +45,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.data.CurriculumRepository
 import com.example.model.LessonStep
-import com.example.model.LessonTopic
 import com.example.model.ValidationResult
 import com.example.ui.components.CodeEditorPane
 import com.example.ui.components.HtmlLivePreview
-import com.example.ui.theme.ImportantNoteTextDark
-import com.example.ui.theme.ImportantNoteTextLight
-import com.example.ui.theme.TopicCssTextDark
-import com.example.ui.theme.TopicCssTextLight
-import com.example.ui.theme.TopicHtmlTextDark
-import com.example.ui.theme.TopicHtmlTextLight
-import com.example.ui.theme.TopicLayoutTextDark
-import com.example.ui.theme.TopicLayoutTextLight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,14 +68,6 @@ fun LessonScreen(
         onBack()
         return
     }
-
-    val isDark = MaterialTheme.colorScheme.background.luminance() < 0.5f
-    val topicFontColor = when (lesson.topic) {
-        LessonTopic.HTML -> if (isDark) TopicHtmlTextDark else TopicHtmlTextLight
-        LessonTopic.CSS -> if (isDark) TopicCssTextDark else TopicCssTextLight
-        LessonTopic.LAYOUT -> if (isDark) TopicLayoutTextDark else TopicLayoutTextLight
-    }
-    val importantNoteFontColor = if (isDark) ImportantNoteTextDark else ImportantNoteTextLight
 
     var currentStepIndex by remember(lessonId) { mutableIntStateOf(0) }
     val currentStep = lesson.steps[currentStepIndex.coerceIn(0, lesson.steps.lastIndex)]
@@ -174,7 +156,7 @@ fun LessonScreen(
                             }
                         }
 
-                        Button(
+                        OutlinedButton(
                             onClick = {
                                 validationResult = onValidateStep(currentStep, htmlCode, cssCode)
                             },
@@ -183,10 +165,10 @@ fun LessonScreen(
                                 .minimumInteractiveComponentSize()
                                 .testTag("verify_step_button"),
                             shape = RoundedCornerShape(8.dp),
-                            elevation = ButtonDefaults.buttonElevation(0.dp, 0.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                contentColor = MaterialTheme.colorScheme.onPrimary
+                            border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.onBackground),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = MaterialTheme.colorScheme.background,
+                                contentColor = MaterialTheme.colorScheme.onBackground
                             )
                         ) {
                             if (isStepDone) {
@@ -236,12 +218,11 @@ fun LessonScreen(
                 .padding(horizontal = 20.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
-            // Notion-style clean topic block (colored font ONLY)
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(
                     text = currentStep.title,
                     style = MaterialTheme.typography.headlineSmall,
-                    color = topicFontColor,
+                    color = MaterialTheme.colorScheme.onBackground,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
@@ -251,24 +232,22 @@ fun LessonScreen(
                 )
             }
 
-            // Notion Callout for Important Note (neutral surface + border, colored text ONLY)
             Surface(
                 shape = RoundedCornerShape(8.dp),
-                color = MaterialTheme.colorScheme.surface,
+                color = MaterialTheme.colorScheme.surfaceVariant,
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
                     text = "نکته استاندارد: ${currentStep.standardNote}",
                     style = MaterialTheme.typography.bodySmall,
-                    color = importantNoteFontColor,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(14.dp)
                 )
             }
 
             HorizontalDivider(color = MaterialTheme.colorScheme.outline)
 
-            // Minimal Task Prompt
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(
                     text = "تمرین این گام",
@@ -286,7 +265,7 @@ fun LessonScreen(
                 validationResult?.let { result ->
                     Surface(
                         shape = RoundedCornerShape(8.dp),
-                        color = MaterialTheme.colorScheme.surface,
+                        color = MaterialTheme.colorScheme.surfaceVariant,
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -300,16 +279,16 @@ fun LessonScreen(
                                 text = if (result.isPassed) {
                                     "تمام معیارهای استاندارد پاس شد (+${currentStep.xpReward} XP)"
                                 } else {
-                                    "نکته مهم برای تکمیل:"
+                                    "نکات تکمیل این گام:"
                                 },
                                 style = MaterialTheme.typography.labelLarge,
-                                color = if (result.isPassed) topicFontColor else importantNoteFontColor
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                             result.failedHints.forEach { hint ->
                                 Text(
                                     text = "• $hint",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = importantNoteFontColor
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
                         }

@@ -23,16 +23,17 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowLeft
-import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.outlined.RadioButtonUnchecked
+import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.ExpandLess
 import androidx.compose.material.icons.rounded.ExpandMore
 import androidx.compose.material.icons.rounded.PlayArrow
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.minimumInteractiveComponentSize
@@ -44,7 +45,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -52,12 +52,6 @@ import com.example.data.CurriculumRepository
 import com.example.model.CurriculumModule
 import com.example.model.Lesson
 import com.example.model.LessonTopic
-import com.example.ui.theme.TopicCssTextDark
-import com.example.ui.theme.TopicCssTextLight
-import com.example.ui.theme.TopicHtmlTextDark
-import com.example.ui.theme.TopicHtmlTextLight
-import com.example.ui.theme.TopicLayoutTextDark
-import com.example.ui.theme.TopicLayoutTextLight
 
 @Composable
 fun LearnScreen(
@@ -99,7 +93,6 @@ fun LearnScreen(
             contentPadding = PaddingValues(horizontal = 20.dp, vertical = 18.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
-            // Notion-style minimal document header (zero images)
             item {
                 Column(
                     modifier = Modifier.fillMaxWidth(),
@@ -154,17 +147,17 @@ fun LearnScreen(
 
                     Spacer(modifier = Modifier.height(2.dp))
 
-                    Button(
+                    OutlinedButton(
                         onClick = { onOpenLesson(nextLesson.id) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .minimumInteractiveComponentSize()
                             .testTag("continue_learning_button"),
                         shape = RoundedCornerShape(8.dp),
-                        elevation = ButtonDefaults.buttonElevation(0.dp, 0.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            contentColor = MaterialTheme.colorScheme.onPrimary
+                        border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.onBackground),
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            containerColor = MaterialTheme.colorScheme.background,
+                            contentColor = MaterialTheme.colorScheme.onBackground
                         )
                     ) {
                         Icon(
@@ -184,7 +177,6 @@ fun LearnScreen(
                 }
             }
 
-            // Minimal Notion-like filter tabs
             item {
                 Row(
                     modifier = Modifier
@@ -238,10 +230,10 @@ private fun NotionFilterPill(
 ) {
     Surface(
         shape = RoundedCornerShape(6.dp),
-        color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+        color = MaterialTheme.colorScheme.background,
         border = BorderStroke(
-            width = 1.dp,
-            color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
+            width = if (selected) 1.5.dp else 1.dp,
+            color = if (selected) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.outline
         ),
         modifier = Modifier
             .minimumInteractiveComponentSize()
@@ -255,7 +247,8 @@ private fun NotionFilterPill(
             Text(
                 text = label,
                 style = MaterialTheme.typography.labelMedium,
-                color = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
+                fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
+                color = if (selected) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -267,15 +260,6 @@ private fun NotionModuleToggleBox(
     completedSteps: Set<String>,
     onOpenLesson: (String) -> Unit
 ) {
-    val isDark = MaterialTheme.colorScheme.background.luminance() < 0.5f
-
-    // ONLY font color inside topic box header is colored
-    val topicFontColor = when (module.topic) {
-        LessonTopic.HTML -> if (isDark) TopicHtmlTextDark else TopicHtmlTextLight
-        LessonTopic.CSS -> if (isDark) TopicCssTextDark else TopicCssTextLight
-        LessonTopic.LAYOUT -> if (isDark) TopicLayoutTextDark else TopicLayoutTextLight
-    }
-
     var expanded by remember { mutableStateOf(true) }
 
     Surface(
@@ -298,17 +282,12 @@ private fun NotionModuleToggleBox(
                     modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Text(
-                            text = "${module.number}. ${module.title}",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = topicFontColor,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
+                    Text(
+                        text = "${module.number}. ${module.title}",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontWeight = FontWeight.Bold
+                    )
                     Text(
                         text = "${module.referenceBadge}  •  ${module.description}",
                         style = MaterialTheme.typography.bodySmall,
@@ -363,26 +342,12 @@ private fun NotionLessonRow(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier.weight(1f)
         ) {
-            Surface(
-                modifier = Modifier.size(22.dp),
-                shape = RoundedCornerShape(5.dp),
-                color = if (isDone) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background,
-                border = BorderStroke(
-                    width = 1.dp,
-                    color = if (isDone) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
-                )
-            ) {
-                if (isDone) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            imageVector = Icons.Rounded.Check,
-                            contentDescription = "تکمیل‌شده",
-                            tint = MaterialTheme.colorScheme.onPrimary,
-                            modifier = Modifier.size(14.dp)
-                        )
-                    }
-                }
-            }
+            Icon(
+                imageVector = if (isDone) Icons.Rounded.CheckCircle else Icons.Outlined.RadioButtonUnchecked,
+                contentDescription = if (isDone) "تکمیل‌شده" else "تکمیل‌نشده",
+                tint = if (isDone) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(20.dp)
+            )
 
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text(
